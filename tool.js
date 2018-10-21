@@ -337,12 +337,8 @@ Document.prototype.myElementsByClassName = function (str) {
     domArr.forEach(function (ele, index) {
         var clsArr = ele.className.replace(reg, ' ').trim().split(' ');
         var flag = true;
-        var clsObj = {};
-        clsArr.forEach(function (e, i){
-            clsObj[e] = true;
-        })
         strArr.forEach(function (e, i) {
-            if(!clsObj[e]){
+            if(clsArr.indexOf(e) == -1){
                 flag = false;
             }
         })
