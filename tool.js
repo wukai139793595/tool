@@ -326,3 +326,29 @@ function myExtend(target, origin) {
         }
     }
 })()
+
+//通过class查找dom函数
+Document.prototype.myElementsByClassName = function (str) {
+    var allDomArr = document.getElementsByTagName('*');
+    var domArr = [].slice.call(allDomArr);
+    var reg = /\s+/g;
+    var strArr = str.replace(reg, ' ').trim().split(' ');
+    var result = [];
+    domArr.forEach(function (ele, index) {
+        var clsArr = ele.className.replace(reg, ' ').trim().split(' ');
+        var flag = true;
+        var clsObj = {};
+        clsArr.forEach(function (e, i){
+            clsObj[e] = true;
+        })
+        strArr.forEach(function (e, i) {
+            if(!clsObj[e]){
+                flag = false;
+            }
+        })
+        if(flag){
+            result.push(ele);
+        }
+    })
+    return result;
+}
