@@ -326,7 +326,42 @@ function myExtend(target, origin) {
         }
     }
 })()
-
+//惰性函数
+function inertia(oDom, type, handle) {
+    if(document.addEventListener) {
+        oDom.addEventListener(type, handle, false);
+        inertia = function (oDom, type, handle) {
+            oDom.addEventListener(type, handle, false);
+        }
+    }else {
+        oDom.attachEvent('on'+type, handle);
+        inertia = function (oDom, type, handle) {
+            oDom.attachEvent('on'+type, handle);
+        }
+    }
+}
+//节流
+function throttle(handle, wait) {
+    var lastTime = 0;
+    return function (e) {
+        var newTime = Date.now();
+        if(newTime - lastTime > wait) {
+            handle.apply(this, arguments);
+            lastTime = newTime;
+        }
+    }
+}
+//防抖
+function debounce(handle, delay) {
+    var timer = null;
+    return function (e) {
+        clearTimeout(timer);
+        _arg = arguments;
+        timer = setTimeout(()=>{
+            handle.apply(this, _arg);
+        },delay);
+    }
+}
 //通过class查找dom函数
 Document.prototype.myElementsByClassName = function (str) {
     var allDomArr = document.getElementsByTagName('*');
